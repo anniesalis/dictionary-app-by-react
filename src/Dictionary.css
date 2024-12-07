@@ -1,0 +1,13 @@
+.dictionary {
+        margin: auto 0;                   /* Remove default margin */
+            
+      }
+      
+      form {
+        display: flex;               /* Optional: Arrange items in the form */
+        justify-content: center;    /* Stack inputs/buttons vertically */
+        gap: 1rem;                   /* Add spacing between form elements */
+    margin-top: 10px;  
+    }
+          
+
