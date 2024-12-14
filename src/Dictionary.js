@@ -1,54 +1,78 @@
-import React, {useState} from "react"
+import React, { useState } from "react";
 import axios from "axios";
-import "./Dictionary.css"
+import Results from "./Results";
+import Photos from "./Photos";
+import "./Dictionary.css";
 
-export default function Dictionary() {
+export default function Dictionary(props) {
+  let [keyword, setKeyword] = useState(props.defaultKeyword);
+  let [results, setResults] = useState(null);
+  let [loaded, setLoaded] = useState(false);
+  let [photos, setPhotos] = useState(null);
+  let [loading, setLoading] = useState(false); // New state for spinner
 
-const [word, setWord]=useState("");
+  function handleResponse(response) {
+    setResults(response.data);
+    setLoading(false); // Stop spinner when data is received
+  }
 
+  function handleImagesResponse(response) {
+    setPhotos(response.data.photos);
+    setLoading(false); // Stop spinner when data is received
+  }
 
-function displayResponse(response) {
-console.log(response.data);
+  function search() {
+    setLoading(true); // Start spinner
+    // Dictionary API
+    let apiKey = `fdo0da8da8fd60t560b33ec66f43f0c4`;
+    let apiUrl = `https://api.shecodes.io/dictionary/v1/define?word=${keyword}&key=${apiKey}`;
+    axios.get(apiUrl).then(handleResponse).catch(() => setLoading(false));
 
+    // Images API
+    let imagesApiKey = `fdo0da8da8fd60t560b33ec66f43f0c4`;
+    let imagesApiUrl = `https://api.shecodes.io/images/v1/search?query=${keyword}&key=${imagesApiKey}`;
+    axios.get(imagesApiUrl).then(handleImagesResponse).catch(() => setLoading(false));
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    search();
+  }
+
+  function handleKeywordChange(event) {
+    setKeyword(event.target.value);
+  }
+
+  function load() {
+    setLoaded(true);
+    search();
+  }
+
+  if (loaded) {
+    return (
+      <div className="Dictionary">
+        <section>
+          <h1>Enter a word</h1>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="search"
+              onChange={handleKeywordChange}
+              defaultValue={props.defaultKeyword}
+            />
+            <button type="submit">Search</button> {/* New button added */}
+          </form>
+        </section>
+        {loading && (
+          <div className="spinner-container">
+            <div className="spinner"></div>
+          </div>
+        )}
+        {!loading && results && <Results results={results} />}
+        {!loading && photos && <Photos photos={photos} />}
+      </div>
+    );
+  } else {
+    load();
+    return "Loading...";
+  }
 }
-
-
-function search(event) {
-event.preventDefault();
-
-if (word) {
-    alert("Please enter a word to search");
-return;
-}
-
-
-let apiKey = "2ob113a879d9f74f53b31fb0t04ab5cb"
-let apiUrl = `https://api.shecodes.io/dictionary/v1/define?word=${word}&key=${apiKey}` 
-console.log(apiUrl);
-axios.get(apiUrl).then(displayResponse);
-}
-function handleChange(event) {
-    
-setWord(event.target.value);
-
-}
-
-
-return (
-    
-   <div className="dictionary"> 
-    <form onSubmit={search}>
-         <input type="search" 
-         onChange={handleChange} 
-         placeholder="Enter a Word" 
-         required />
-    
-     <input type="submit"
-      value="search" />
-     </form>
-     </div>
- 
-       
- )
- }
- 

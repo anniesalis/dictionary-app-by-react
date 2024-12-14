@@ -9,5 +9,67 @@
         gap: 1rem;                   /* Add spacing between form elements */
     margin-top: 10px;  
     }
-          
+
+    .spinner-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+    }
+    
+    .spinner {
+      border: 8px solid #f3f3f3; /* Light grey */
+      border-top: 8px solid #3498db; /* Blue */
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+    
+.Dictionary {
+  text-align: center; /* Center text content */
+  margin: 0 auto; /* Center container horizontally */
+  max-width: 800px; /* Adjust to your preferred width */
+}
+
+section {
+  margin-bottom: 20px; /* Add some spacing */
+}
+
+form {
+  margin: 20px 0; /* Add space around the form */
+}
+
+form input {
+  padding: 10px;
+  margin-right: 10px;
+}
+
+form button {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+form button:hover {
+  background-color: #0056b3;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
 
